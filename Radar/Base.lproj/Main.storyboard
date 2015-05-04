@@ -30,14 +30,27 @@
                                     <constraint firstAttribute="width" constant="280" id="k3c-LV-5Hn"/>
                                 </constraints>
                             </view>
+                            <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sXH-H8-Oa6">
+                                <rect key="frame" x="108" y="521" width="265" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="G4w-be-dXF"/>
+                                    <constraint firstAttribute="width" constant="261" id="HPO-kW-PcH"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="sliderValueChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="LuB-fy-p7x"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="0.3529411764705882" green="0.32156862745098036" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="Xdo-Kg-5Qc" secondAttribute="centerX" id="3XB-2g-5qf"/>
+                            <constraint firstAttribute="centerX" secondItem="sXH-H8-Oa6" secondAttribute="centerX" id="SXd-CS-Bk4"/>
                             <constraint firstAttribute="centerY" secondItem="Xdo-Kg-5Qc" secondAttribute="centerY" id="Umg-L6-hXv"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="sXH-H8-Oa6" secondAttribute="bottom" constant="50" id="qAS-eb-EmY"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="distanceSlider" destination="sXH-H8-Oa6" id="vvZ-pb-rWo"/>
                         <outlet property="radarLine" destination="gdD-ee-shV" id="8Ot-QA-Ftm"/>
                         <outlet property="radarViewHolder" destination="Xdo-Kg-5Qc" id="w25-0V-ZRY"/>
                     </connections>

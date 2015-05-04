@@ -17,6 +17,7 @@
 		9313547C1AF34CF800C804BE /* Arcs.m in Sources */ = {isa = PBXBuildFile; fileRef = 9313547A1AF34CF800C804BE /* Arcs.m */; };
 		9313547F1AF353B200C804BE /* Radar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9313547E1AF353B200C804BE /* Radar.m */; };
 		931354831AF3545800C804BE /* AngleGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 931354821AF3545800C804BE /* AngleGradientLayer.m */; };
+		93E34C951AF67C1C00C6572B /* Dot.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E34C941AF67C1C00C6572B /* Dot.m */; };
 		93E759361AF3F036009BFCC1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E759351AF3F036009BFCC1 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,8 @@
 		9313547E1AF353B200C804BE /* Radar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Radar.m; sourceTree = "<group>"; };
 		931354811AF3545800C804BE /* AngleGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AngleGradientLayer.h; sourceTree = "<group>"; };
 		931354821AF3545800C804BE /* AngleGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AngleGradientLayer.m; sourceTree = "<group>"; };
+		93E34C931AF67C1C00C6572B /* Dot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dot.h; sourceTree = "<group>"; };
+		93E34C941AF67C1C00C6572B /* Dot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dot.m; sourceTree = "<group>"; };
 		93E759351AF3F036009BFCC1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -75,10 +78,9 @@
 		9313543F1AF34B7300C804BE = {
 			isa = PBXGroup;
 			children = (
-				93E759351AF3F036009BFCC1 /* CoreLocation.framework */,
 				9313544A1AF34B7300C804BE /* Radar */,
-				931354641AF34B7300C804BE /* RadarTests */,
 				931354491AF34B7300C804BE /* Products */,
+				931354641AF34B7300C804BE /* RadarTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +105,7 @@
 				931354581AF34B7300C804BE /* Images.xcassets */,
 				9313545A1AF34B7300C804BE /* LaunchScreen.xib */,
 				9313544B1AF34B7300C804BE /* Supporting Files */,
+				93E34C961AF67C5800C6572B /* Frameworks */,
 			);
 			path = Radar;
 			sourceTree = "<group>";
@@ -147,6 +150,8 @@
 			children = (
 				931354791AF34CF800C804BE /* Arcs.h */,
 				9313547A1AF34CF800C804BE /* Arcs.m */,
+				93E34C931AF67C1C00C6572B /* Dot.h */,
+				93E34C941AF67C1C00C6572B /* Dot.m */,
 				9313547D1AF353B200C804BE /* Radar.h */,
 				9313547E1AF353B200C804BE /* Radar.m */,
 			);
@@ -160,6 +165,14 @@
 				931354821AF3545800C804BE /* AngleGradientLayer.m */,
 			);
 			path = AngleGradient;
+			sourceTree = "<group>";
+		};
+		93E34C961AF67C5800C6572B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93E759351AF3F036009BFCC1 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,6 +281,7 @@
 				931354511AF34B7300C804BE /* AppDelegate.m in Sources */,
 				9313547C1AF34CF800C804BE /* Arcs.m in Sources */,
 				9313544E1AF34B7300C804BE /* main.m in Sources */,
+				93E34C951AF67C1C00C6572B /* Dot.m in Sources */,
 				9313547B1AF34CF800C804BE /* RadarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
