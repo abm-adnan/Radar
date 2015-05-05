@@ -17,7 +17,6 @@
     NSMutableArray *dots;
     NSArray *nearbyUsers;
     NSTimer *detectCollisionTimer;
-    CABasicAnimation * spin;
 }
 
 @end
@@ -38,26 +37,14 @@
     
     [radarViewHolder addSubview:radarView];
     
-    /**** spin animation object ***/
-    spin = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    spin.duration = 1;
-    spin.toValue = [NSNumber numberWithFloat:-M_PI];
-    spin.cumulative = YES;
-    spin.removedOnCompletion = NO;
-    spin.repeatCount = MAXFLOAT;
-    radarLine.layer.anchorPoint = CGPointMake(-0.18, 0.5);
-     
+    // start spinning the radar forever
+    [self spinRadar];
+    
     // start heading event to rotate the arcs along with device rotation
     currentDeviceBearing = 0;
     [self startHeadingEvent];
     
     [self loadUsers];
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    // start spinning the radar forever
-    [self spinRadar];
 }
 
 #pragma mark - Reload Radar
@@ -150,8 +137,14 @@
 
 #pragma mark - Spin the radar view continuously
 -(void)spinRadar{
-    [radarLine.layer removeAnimationForKey:@"spinRadarLine"];
-    [radarView.layer removeAnimationForKey:@"spinRadarView"];
+    /**** spin animation object ***/
+    CABasicAnimation *spin = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    spin.duration = 1;
+    spin.toValue = [NSNumber numberWithFloat:-M_PI];
+    spin.cumulative = YES;
+    spin.removedOnCompletion = NO; // this is to keep on animating after application pause-resume
+    spin.repeatCount = MAXFLOAT;
+    radarLine.layer.anchorPoint = CGPointMake(-0.18, 0.5);
     
     [radarLine.layer addAnimation:spin forKey:@"spinRadarLine"];
     [radarView.layer addAnimation:spin forKey:@"spinRadarView"];
