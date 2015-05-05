@@ -7,7 +7,9 @@
 ### Features
 - Multiple circles(arcs) of different colors with same center.
 - A radar sweeper.
-- Dots indicating users nearby.
+- Dots indicating users nearby distributing based on coordinate lattitute, longitude. Device up is treated as North.
 - A slider to filter dots (users) by distance.
 - Pulsing dots when radar sweeper line crosses any dots.
 - Rotate the whole view like compass based on geolocation heading change event.
+
+For compass events please run on device, on simulator heading events won't work.
