@@ -17,6 +17,7 @@
     NSMutableArray *dots;
     NSArray *nearbyUsers;
     NSTimer *detectCollisionTimer;
+    CABasicAnimation * spin;
 }
 
 @end
@@ -36,13 +37,27 @@
     radarView.alpha = 0.68;
     
     [radarViewHolder addSubview:radarView];
-    // start spinning the radar forever
-    [self spinRadar];
+    
+    /**** spin animation object ***/
+    spin = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    spin.duration = 1;
+    spin.toValue = [NSNumber numberWithFloat:-M_PI];
+    spin.cumulative = YES;
+    spin.removedOnCompletion = NO;
+    spin.repeatCount = MAXFLOAT;
+    radarLine.layer.anchorPoint = CGPointMake(-0.18, 0.5);
+     
     // start heading event to rotate the arcs along with device rotation
     currentDeviceBearing = 0;
     [self startHeadingEvent];
     
     [self loadUsers];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // start spinning the radar forever
+    [self spinRadar];
 }
 
 #pragma mark - Reload Radar
@@ -78,11 +93,11 @@
         
         // male > blue, female > green
         if ([[user valueForKey:@"gender"] isEqualToString:@"female"]) {
-            // green
-            dot.color = [UIColor colorWithRed:10.0/255.0 green:205.0/255.0 blue:174.0/255.0 alpha:1.0];
+            // pink
+            dot.color = [UIColor colorWithRed:234.0/255.0 green:69.0/255.0 blue:130.0/255.0 alpha:1.0];
         } else {
-            // blue
-            dot.color = [UIColor colorWithRed:0.0/255.0 green:119.0/255.0 blue:192.0/255.0 alpha:1.0];
+            // cyan
+            dot.color = [UIColor colorWithRed:39.0/255.0 green:185.0/255.0 blue:173.0/255.0 alpha:1.0];
         }
         
         CLLocationCoordinate2D userLoc = { [[user valueForKey:@"lat"] floatValue], [[user valueForKey:@"lng"] floatValue] };
@@ -120,28 +135,26 @@
     
     // At this point use your own method to load nearby users from server via network request.
     // I'm using some dummy hardcoded users data.
-    // Make sure in your returned data the nearest user is first item of the json array, farthest user is last
+    // Make sure in your returned data the **sorted** by **nearest to farthest**
     nearbyUsers = @[
-                             @{@"gender":@"female", @"lat":@48.859873, @"lng":@2.295083,@"distance":@173.2},
-                             @{@"gender":@"male", @"lat":@48.859718, @"lng":@2.300544,@"distance":@468.6},
-                             ];
+                 @{@"gender":@"female", @"lat":@48.859873, @"lng":@2.295083,@"distance":@173.2},    // nearest
+                 @{@"gender":@"female", @"lat":@48.856492, @"lng":@2.298515,@"distance":@362.3},    //  THE SORTING is
+                 @{@"gender":@"male", @"lat":@48.859718, @"lng":@2.300544,@"distance":@468.6},      //  Very IMPORTANT!
+                 @{@"gender":@"female", @"lat":@48.858376, @"lng":@2.287666,@"distance":@499.8},    //
+                 @{@"gender":@"male", @"lat":@48.854643, @"lng":@2.289186,@"distance":@567.1}       // farthest
+                 ];
     
     // This method should be called after successful return of JSON array from your server-side service
     [self renderUsersOnRadar:nearbyUsers];
 }
 
-// spin the radar view continuously
+#pragma mark - Spin the radar view continuously
 -(void)spinRadar{
-    CABasicAnimation * spin = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    spin.duration = 1;
-    spin.toValue = [NSNumber numberWithFloat:-M_PI];
-    spin.cumulative = YES;
-    spin.repeatCount = MAXFLOAT;
+    [radarLine.layer removeAnimationForKey:@"spinRadarLine"];
+    [radarView.layer removeAnimationForKey:@"spinRadarView"];
     
-    radarLine.layer.anchorPoint = CGPointMake(-0.18, 0.5);
-    [radarLine.layer addAnimation:spin forKey:@"spin"];
-    
-    [radarView.layer addAnimation:spin forKey:@"spin"];
+    [radarLine.layer addAnimation:spin forKey:@"spinRadarLine"];
+    [radarView.layer addAnimation:spin forKey:@"spinRadarView"];
 }
 
 - (void)startHeadingEvent {
@@ -331,7 +344,7 @@
     [self filterNearByUsersByDistance: distanceFilter];
 }
 
-
+// for this function to work, sorting of users data by distance in ASC order (nearest to farthest) is a must
 -(void) filterNearByUsersByDistance: (float)maxDistance{
     for (id d in dots) {
         Dot *dot = (Dot *)d;

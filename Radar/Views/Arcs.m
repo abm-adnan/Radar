@@ -21,7 +21,6 @@
 - (void)drawRect:(CGRect)rect{
     // Set the render colors.
     // the colors of the arcs
-    // color palettes credit: http://www.colourlovers.com/lover/thulakawasaki
     NSArray *colors = @[
                         [UIColor colorWithRed:176.0/255.0 green:228.0/255.0 blue:37.0/255.0 alpha:1.0],
                         [UIColor colorWithRed:51.0/255.0 green:181.0/255.0 blue:187.0/255.0 alpha:1.0],
