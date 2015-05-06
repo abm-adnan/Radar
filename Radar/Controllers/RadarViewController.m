@@ -57,6 +57,11 @@
     arcsView = [[Arcs alloc] initWithFrame:CGRectMake(0, 0, 280, 280)];
     [radarViewHolder addSubview:arcsView];
     
+    // add tap gesture recognizer to arcs view to capture tap on dots (user profiles) and enlarge the selected dots with a white border
+    arcsView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDotTapped:)];
+    [arcsView addGestureRecognizer:tapGestureRecognizer];
+    
     radarView = [[Radar alloc] initWithFrame:CGRectMake(3, 3, radarViewHolder.frame.size.width-6, radarViewHolder.frame.size.height-6)];
     radarView.alpha = 0.68;
     
@@ -149,11 +154,12 @@
     // I'm using some dummy hardcoded users data.
     // Make sure in your returned data the **sorted** by **nearest to farthest**
     nearbyUsers = @[
-                 @{@"gender":@"female", @"lat":@48.859873, @"lng":@2.295083,@"distance":@173.2},    // nearest
-                 @{@"gender":@"female", @"lat":@48.856492, @"lng":@2.298515,@"distance":@362.3},    //  THE SORTING is
-                 @{@"gender":@"male", @"lat":@48.859718, @"lng":@2.300544,@"distance":@468.6},      //  Very IMPORTANT!
-                 @{@"gender":@"female", @"lat":@48.858376, @"lng":@2.287666,@"distance":@499.8},    //
-                 @{@"gender":@"male", @"lat":@48.854643, @"lng":@2.289186,@"distance":@567.1}       // farthest
+                 @{@"gender":@"female", @"lat":@48.859873, @"lng":@2.295083, @"distance":@173.1}, // *Nearest*
+                 @{@"gender":@"male",   @"lat":@48.859619, @"lng":@2.296101, @"distance":@180}, //
+                 @{@"gender":@"female", @"lat":@48.856492, @"lng":@2.298515, @"distance":@362.3}, // THE SORTING is
+                 @{@"gender":@"male",   @"lat":@48.859718, @"lng":@2.300544, @"distance":@468.6}, // Very IMPORTANT!
+                 @{@"gender":@"female", @"lat":@48.858376, @"lng":@2.287666, @"distance":@499.8}, //
+                 @{@"gender":@"male",   @"lat":@48.854643, @"lng":@2.289186, @"distance":@567.1}  // *Farthest*
                  ];
     
     // This method should be called after successful return of JSON array from your server-side service
@@ -291,6 +297,44 @@
     
     [dot.layer addAnimation:animation forKey:@"translateDot"];
     
+}
+
+#pragma mark - Tap Event on Dot
+- (void)onDotTapped:(UITapGestureRecognizer *)recognizer {
+    
+    UIView *circleView = recognizer.view;
+    
+    CGPoint point = [recognizer locationInView:circleView];
+    
+    // The for loop is to find out multiple dots in vicinity
+    // you may define a NSMutableArray before the for loop and
+    // get the group of dots together
+    NSMutableArray *tappedUsers = [NSMutableArray array];
+                                   
+    for (Dot *d in dots) {
+        if (d.zoomEnabled) {
+            // remove selection from previously selected dot(s)
+            d.zoomEnabled = NO;
+            d.layer.borderColor = [UIColor clearColor].CGColor;
+            [d setNeedsDisplay];
+        }
+        if([d.layer.presentationLayer hitTest:point] != nil){
+            
+            // you can get the list of tapped user(s if more than one users are close enough)
+            [tappedUsers addObject:d]; // use this variable outside of for loop to get list of users
+
+            // Show white border for selected dot(s) and zoom out a little bit
+            d.layer.borderColor = [UIColor whiteColor].CGColor;
+            d.layer.borderWidth = 1;
+            d.layer.cornerRadius = 16;
+            [d setNeedsDisplay];
+            
+            [self pulse:d];
+            
+            d.zoomEnabled = YES; // it'll keep a trace of selected dot(s)
+        }
+    }
+    // use tappedUsers variable according to your app logic
 }
 #pragma mark - Detect Collisions
 
