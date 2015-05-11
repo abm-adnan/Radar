@@ -55,6 +55,10 @@
 	AngleGradientLayer *l = (AngleGradientLayer *)self.layer;
 	l.colors = colors;
     
+    // NOTE: Since our gradient layer is built as an image,
+    // we need to scale it to match the display of the device.
+    l.contentsScale = [UIScreen mainScreen].scale; // Retina
+    
     l.cornerRadius = CGRectGetWidth(self.bounds) / 2;
     
     

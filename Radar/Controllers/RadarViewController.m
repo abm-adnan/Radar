@@ -55,6 +55,13 @@
     nearbyUsers = [[NSArray alloc] init];
     
     arcsView = [[Arcs alloc] initWithFrame:CGRectMake(0, 0, 280, 280)];
+    
+    // NOTE: Since our gradient layer is built as an image,
+    // we need to scale it to match the display of the device.
+    arcsView.layer.contentsScale = [UIScreen mainScreen].scale; // Retina
+    
+    radarViewHolder.layer.contentsScale = [UIScreen mainScreen].scale; // Retina
+    
     [radarViewHolder addSubview:arcsView];
     
     // add tap gesture recognizer to arcs view to capture tap on dots (user profiles) and enlarge the selected dots with a white border
@@ -63,6 +70,9 @@
     [arcsView addGestureRecognizer:tapGestureRecognizer];
     
     radarView = [[Radar alloc] initWithFrame:CGRectMake(3, 3, radarViewHolder.frame.size.width-6, radarViewHolder.frame.size.height-6)];
+    
+    radarView.layer.contentsScale = [UIScreen mainScreen].scale; // Retina
+    
     radarView.alpha = 0.68;
     
     [radarViewHolder addSubview:radarView];
@@ -107,6 +117,8 @@
     for (NSDictionary *user in users) {
         
         Dot *dot = [[Dot alloc] initWithFrame:CGRectMake(0, 0, 32.0, 32.0)];
+        
+        dot.layer.contentsScale = [UIScreen mainScreen].scale; // Retina
         
         // male > blue, female > green
         if ([[user valueForKey:@"gender"] isEqualToString:@"female"]) {
@@ -373,6 +385,7 @@
     pulse.duration = 0.15;
     pulse.toValue = [NSNumber numberWithFloat:1.4];
     pulse.autoreverses = YES;
+    dot.layer.contentsScale = [UIScreen mainScreen].scale; // Retina
     [dot.layer addAnimation:pulse forKey:@"pulse"];
 }
 

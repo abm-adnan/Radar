@@ -79,6 +79,7 @@
         // Adjust the drawing options as needed
         // The line width of the path
         path.lineWidth = 2;
+        
         // draw the arc
         [path stroke];
         
